@@ -69,11 +69,13 @@ const MainNavigation = () => {
               </NavLink>
             </li>
           )}
-          <li>
-            <NavLink to="/cycles" activeClassName={classes.active}>
-              Cycles
-            </NavLink>
-          </li>
+          {authCtx.isLoggedIn && two && (
+            <li>
+              <NavLink to="/cycles" activeClassName={classes.active}>
+                Cycles
+              </NavLink>
+            </li>
+          )}
           {authCtx.isLoggedIn && (
             <li>
               <NavLink

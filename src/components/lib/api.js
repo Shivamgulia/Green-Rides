@@ -1,4 +1,4 @@
-const url = 'https://cycle-renter.azurewebsites.net/';
+const url = 'https://cycle-api.azurewebsites.net';
 
 export async function rentCycle(props) {
   let response = await fetch(`${url}/cycles/${props.cycleid}`, {

@@ -1,5 +1,7 @@
 import { useContext, useRef, useState } from 'react';
 import AuthContext from '../../store/auth-context';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useHistory } from 'react-router-dom';
 
 import useHttp from '../hooks/use-http';
 import { addStudent } from '../lib/api';
@@ -8,15 +10,22 @@ import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './AddStudentForm.module.css';
 
 const AddStudentForm = (props) => {
+  console.log(props);
   const authCtx = useContext(AuthContext);
   const passwordRef = useRef();
+  const history = useHistory();
 
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   const { sendRequest, status, error } = useHttp(addStudent, false);
 
   // console.log(JSON.stringify(props.user));
+
+  const onChange = () => {
+    setIsVerified(true);
+  };
 
   const toggleShowPassword = () => {
     if (showPassword) setShowPassword(false);
@@ -36,27 +45,32 @@ const AddStudentForm = (props) => {
 
   const submitionHandler = (event) => {
     event.preventDefault();
-    setIsLoading(true);
-    sendRequest({
-      student: {
-        name: props.user.given_name,
-        rollno: props.user.email.substring(0, 9),
-        branch: props.user.email.substring(5, 7),
-        role: 'student',
-        email: props.user.email,
-        password: passwordRef.current.value,
-      },
-      token: authCtx.token,
-    });
-    setIsLoading(false);
-    // console.log({
-    //   name: nameRef.current.value,
-    //   rollno: rollnoRef.current.value,
-    //   branch: branchRef.current.value,
-    //   email: emailRef.current.value,
-    //   role: 'student',
-    //   password: passwordRef.current.value,
-    // });
+    if (isVerified) {
+      setIsLoading(true);
+      sendRequest({
+        student: {
+          name: props.user.name,
+          rollno: '100',
+          branch: 'user',
+          role: 'student',
+          email: props.user.email,
+          password: passwordRef.current.value,
+        },
+        token: authCtx.token,
+      });
+      setIsLoading(false);
+      // console.log({
+      //   name: nameRef.current.value,
+      //   rollno: rollnoRef.current.value,
+      //   branch: branchRef.current.value,
+      //   email: emailRef.current.value,
+      //   role: 'student',
+      //   password: passwordRef.current.value,
+      // });
+      history.replace('/');
+    } else {
+      alert('Verify that you are a human');
+    }
   };
   return (
     <section className={classes.auth}>
@@ -68,7 +82,7 @@ const AddStudentForm = (props) => {
             type="Name"
             id="Name"
             required
-            value={props.user.given_name}
+            value={props.user.name}
             readOnly
           />
         </div>
@@ -112,6 +126,18 @@ const AddStudentForm = (props) => {
           />
         </div>
         <input type="checkbox" onClick={toggleShowPassword} /> Show Password
+        <div>
+          {/* <Recaptcha
+            sitekey="6LfOzVQjAAAAACIJVTM3w4iuAePfdEloNCQvRhj-"
+            render="explicit"
+            verifyCallback={verifyCallback}
+            onloadCallback={load}
+          /> */}
+          <ReCAPTCHA
+            sitekey="6LcU0VQjAAAAAHdKzj2Ub7RAbfQCf6QXbgOif9Le"
+            onChange={onChange}
+          />
+        </div>
         <div className={classes.actions}>
           {!isLoading && <button>Create Account</button>}
           {isLoading && <p>Sending Request....</p>}

@@ -4,7 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 // import ProfilePage from './pages/ProfilePage';
 // import AuthPage from './/pages/AuthPage';
 // import Rent from './pages/Rent';
-// import Signup from './pages/Signup';
+import Signup from './pages/Signup';
 
 import Layout from './components/layout/Layout';
 import LoadingSpinner from './components/UI/LoadingSpinner';
@@ -17,7 +17,7 @@ function App() {
   const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
   const AuthPage = React.lazy(() => import('./pages/AuthPage'));
   const Rent = React.lazy(() => import('./pages/Rent'));
-  const Signup = React.lazy(() => import('./pages/Signup'));
+  // const Signup = React.lazy(() => import('./pages/Signup'));
 
   const authCtx = useContext(AuthContext);
 
@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     if (loggedIn) {
       setIsLoading(true);
-      fetch('https://cycle-renter.azurewebsites.net//users/login', {
+      fetch('https://cycle-api.azurewebsites.net/users/login', {
         method: 'POST',
         body: JSON.stringify({
           email: authCtx.email,
