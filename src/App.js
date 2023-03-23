@@ -25,10 +25,13 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const loggedIn = authCtx.isLoggedIn;
 
+  // const url = 'https://cycle-api.azurewebsites.net/users/login';
+  const url = 'http://64.226.69.16/users/login';
+
   useEffect(() => {
     if (loggedIn) {
       setIsLoading(true);
-      fetch('https://cycle-api.azurewebsites.net/users/login', {
+      fetch(url, {
         method: 'POST',
         body: JSON.stringify({
           email: authCtx.email,

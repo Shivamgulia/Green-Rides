@@ -21,9 +21,9 @@ const UserProfile = () => {
   };
   return (
     <section className={classes.profile}>
-      {authCtx.role == 'student' && <h1>User Profile</h1>}
-      {authCtx.role == 'guard' && <h1>Guard Profile</h1>}
-      {authCtx.role == 'admin' && <h1>Admin Profile</h1>}
+      {authCtx.role === 'student' && <h1>User Profile</h1>}
+      {authCtx.role === 'guard' && <h1>Guard Profile</h1>}
+      {authCtx.role === 'admin' && <h1>Admin Profile</h1>}
       <UserData user={user} />
       {showChange && (
         <ProfileForm

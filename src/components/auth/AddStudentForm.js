@@ -43,6 +43,12 @@ const AddStudentForm = (props) => {
     return <p className="centered">{error}</p>;
   }
 
+  const rollno = props.user.email.substring(0, 9);
+  let branch;
+  if (rollno.substring()) {
+    branch = 'Electronics';
+  }
+
   const submitionHandler = (event) => {
     event.preventDefault();
     if (isVerified) {
@@ -50,7 +56,7 @@ const AddStudentForm = (props) => {
       sendRequest({
         student: {
           name: props.user.name,
-          rollno: '100',
+          rollno: rollno,
           branch: 'user',
           role: 'student',
           email: props.user.email,
@@ -72,6 +78,7 @@ const AddStudentForm = (props) => {
       alert('Verify that you are a human');
     }
   };
+
   return (
     <section className={classes.auth}>
       <h1>Add Student</h1>
@@ -126,7 +133,7 @@ const AddStudentForm = (props) => {
           />
         </div>
         <input type="checkbox" onClick={toggleShowPassword} /> Show Password
-        <div>
+        <div className="centerd">
           {/* <Recaptcha
             sitekey="6LfOzVQjAAAAACIJVTM3w4iuAePfdEloNCQvRhj-"
             render="explicit"

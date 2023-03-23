@@ -43,8 +43,8 @@ const AuthForm = () => {
 
       setIsLoading(true);
 
-      let url;
-      url = 'https://cycle-api.azurewebsites.net/users/login'; //login send req url
+      //  const url = 'https://cycle-api.azurewebsites.net/users/login'; //login send req url
+      const url = 'http://64.226.69.16/users/login';
 
       fetch(url, {
         method: 'POST',
@@ -114,7 +114,7 @@ const AuthForm = () => {
           />
         </div>
         <input type="checkbox" onClick={toggleShowPassword} /> Show Password
-        <div>
+        <div className="centered">
           {/* <Recaptcha
             sitekey="6LfOzVQjAAAAACIJVTM3w4iuAePfdEloNCQvRhj-"
             render="explicit"
